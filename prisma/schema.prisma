@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model user{
+  id String @id @default(uuid())
+  username String
+  password String
+  phone Int
+  email String @unique()
+  name String
+  address_id String? @unique
+  createAt DateTime @default(now()) @db.Timestamp(0) 
+  updateAt DateTime @default(now()) @updatedAt @db.Timestamp(0) 
+
+  address address? @relation(fields: [address_id],references: [id])
+
+
+}
+
+model address{
+  id           String   @id @default(uuid())
+  cep          String?  
+  place        String   
+  number       String  
+  neighborhood String   
+  city         String   
+  uf           String     
+  createAt DateTime @default(now()) @db.Timestamp(0) 
+  updateAt DateTime @default(now()) @updatedAt @db.Timestamp(0) 
+
+  user user?
+}
