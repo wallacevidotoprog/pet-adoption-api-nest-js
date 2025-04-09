@@ -24,12 +24,12 @@ model user {
 
 model address {
   id           String   @id @default(uuid())
-  cep          String?  @db.VarChar(45)
-  place        String   @db.VarChar(100)
-  number       String   @db.VarChar(45)
-  neighborhood String   @db.VarChar(80)
-  city         String   @db.VarChar(50)
-  uf           String   @db.VarChar(2)
+  cep          String?
+  place        String
+  number       String
+  neighborhood String
+  city         String
+  uf           String
   createAt     DateTime @default(now()) @db.Timestamp(0)
   updateAt     DateTime @default(now()) @updatedAt @db.Timestamp(0)
 
