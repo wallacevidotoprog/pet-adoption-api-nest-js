@@ -8,6 +8,7 @@ import { hashSync } from 'bcrypt';
 import { UserEntity } from 'src/domain/entity/user.entity';
 import { BaseService } from 'src/domain/infra/reposiroty/base.repository';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { FindWhereUser } from './user.dto';
 
 @Injectable()
 export class UserService extends BaseService<
@@ -39,8 +40,24 @@ export class UserService extends BaseService<
     return safe as UserEntity;
   }
 
-  async getUserAuth(email :string):Promise<UserEntity>{
-    const result = await this.prisma.user.findFirst({where:{email:email}})
+  protected override async findAll(where: FindWhereUser): Promise<UserEntity[]> {
+    const safe = await super.findAll(where);
+    if (!safe || safe.length === 0) {
+      throw new NotFoundException('Registration from id not found');
+    }
+
+    const result: UserEntity[] = safe.map((r) => ({
+      ...r,
+      password: 'NOT VIEW',
+    }));
+
+    return result as UserEntity[];
+  }
+
+  async getUserAuth(email: string): Promise<UserEntity> {
+    const result = await this.prisma.user.findFirst({
+      where: { email: email },
+    });
     if (!result) {
       throw new NotFoundException('Registration from id not found');
     }

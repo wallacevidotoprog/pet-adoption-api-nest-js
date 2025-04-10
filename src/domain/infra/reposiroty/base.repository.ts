@@ -7,9 +7,10 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 
-export abstract class BaseController<CreateDto, UpdateDto> {
+export abstract class BaseController<CreateDto, UpdateDto, FindWhere> {
   constructor(private readonly service: any) {}
 
   @Post()
@@ -31,8 +32,8 @@ export abstract class BaseController<CreateDto, UpdateDto> {
   }
 
   @Get()
-  protected async findAll() {
-    return this.service.findAll();
+  protected async findAll(@Query() data: FindWhere) {
+    return this.service.findAll(data);
   }
 
   @Delete(':id')
@@ -62,7 +63,12 @@ export abstract class BaseService<TModel, TDelegate> {
     return await (this.model as any).findFirst({ where: { id: id } });
   }
 
-  protected async findAll(): Promise<TModel[]> {
+  protected async findAll(data: any): Promise<TModel[]> {
+    const where = this.buildPrismaWhere(data);   
+    
+    if (data) {
+      return await (this.model as any).findMany({ where });
+    }
     return await (this.model as any).findMany();
   }
 
@@ -73,4 +79,29 @@ export abstract class BaseService<TModel, TDelegate> {
     await (this.model as any).delete({ where: { id } });
     return HttpStatus.OK;
   }
+
+  private buildPrismaWhere<T extends Record<string, any>>(dto: T) {
+    const where = {} as PrismaFilter<T>;
+
+    for (const key in dto) {
+      const value = dto[key];
+
+      if (value === undefined || value === null) continue;
+
+      if (typeof value === 'string') {
+        where[key] = {
+          contains: value,
+        } as any;
+      } else {
+        where[key] = value;
+      }
+    }
+
+    return where;
+  }
 }
+type PrismaFilter<T> = {
+  [K in keyof T]?: T[K] extends string
+    ? { contains: string; mode?: 'insensitive' }
+    : T[K];
+};

@@ -1,7 +1,7 @@
 import { IsOptional, IsString } from 'class-validator';
 import { BaseEntity } from './base.entity';
 
-export class Address extends BaseEntity {
+export class AddressEntity extends BaseEntity {
   @IsString()
   @IsOptional()
   cep: string;

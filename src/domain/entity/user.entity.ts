@@ -1,6 +1,6 @@
-import { IsEmail, IsInt, IsString } from 'class-validator';
-import { BaseEntity } from './base.entity';
 import { Optional } from '@nestjs/common';
+import { IsBoolean, IsEmail, IsInt, IsString } from 'class-validator';
+import { BaseEntity } from './base.entity';
 
 export class UserEntity extends BaseEntity {
   @IsString()
@@ -21,4 +21,8 @@ export class UserEntity extends BaseEntity {
   @IsString()
   @Optional()
   address_id: string;
+
+  @IsBoolean()
+  @Optional()
+  active: boolean;
 }
