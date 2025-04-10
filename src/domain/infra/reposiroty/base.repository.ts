@@ -2,6 +2,7 @@ import {
   Body,
   Delete,
   Get,
+  HttpCode,
   HttpStatus,
   NotFoundException,
   Param,
@@ -13,11 +14,13 @@ import {
 export abstract class BaseController<CreateDto, UpdateDto, FindWhere> {
   constructor(private readonly service: any) {}
 
+  @HttpCode(HttpStatus.CREATED)
   @Post()
   protected async create(@Body() createdto: CreateDto) {
     return this.service.create(createdto);
   }
 
+  @HttpCode(HttpStatus.OK)
   @Patch(':id')
   protected async update(
     @Param('id') id: string,
@@ -26,16 +29,20 @@ export abstract class BaseController<CreateDto, UpdateDto, FindWhere> {
     return this.service.update(id, updatedto);
   }
 
+
+  @HttpCode(HttpStatus.OK)
   @Get(':id')
   protected async findOne(@Param('id') id: string) {
     return this.service.findOne(id);
   }
 
+  @HttpCode(HttpStatus.OK)
   @Get()
   protected async findAll(@Query() data: FindWhere) {
     return this.service.findAll(data);
   }
 
+  @HttpCode(HttpStatus.ACCEPTED)
   @Delete(':id')
   protected async delete(@Param('id') id: string) {
     return this.service.remove(id);
@@ -56,7 +63,7 @@ export abstract class BaseService<TModel, TDelegate> {
 
     await (this.model as any).update({ where: { id }, data });
 
-    return HttpStatus.OK;
+    return;
   }
 
   protected async findOne(id: string): Promise<TModel> {
@@ -77,7 +84,7 @@ export abstract class BaseService<TModel, TDelegate> {
       throw new NotFoundException('Registration from id not found');
     }
     await (this.model as any).delete({ where: { id } });
-    return HttpStatus.OK;
+    return;
   }
 
   private buildPrismaWhere<T extends Record<string, any>>(dto: T) {

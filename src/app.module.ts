@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { AuthService } from './auth/auth.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { UserModule } from './user/user.module';
+import { EventEmitterModule, OnEvent } from '@nestjs/event-emitter';
 
 @Module({
   imports: [
@@ -14,8 +15,15 @@ import { UserModule } from './user/user.module';
     PrismaModule,
     AuthModule,
     AddressModule,
+    EventEmitterModule.forRoot()
   ],
   controllers: [AuthController],
   providers: [AuthService],
 })
-export class AppModule {}
+export class AppModule {
+  @OnEvent('auth.login')
+  teste(data:any){
+    console.log('@OnEvent(auth.login)=>',data);
+    
+  }
+}

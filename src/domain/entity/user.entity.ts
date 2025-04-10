@@ -1,28 +1,29 @@
 import { Optional } from '@nestjs/common';
-import { IsBoolean, IsEmail, IsInt, IsString } from 'class-validator';
+import { IsBoolean, IsEmail, IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { BaseEntity } from './base.entity';
 
 export class UserEntity extends BaseEntity {
-  @IsString()
+  @IsString({})
   username: string;
 
   @IsString()
+  @IsNotEmpty()
   password: string;
 
   @IsInt()
   phone: number;
 
-  @IsEmail()
+  @IsEmail()//disableErrorMessages
   email: string;
 
   @IsString()
   name: string;
 
   @IsString()
-  @Optional()
+  @IsOptional()
   address_id: string;
 
   @IsBoolean()
-  @Optional()
+  @IsOptional()
   active: boolean;
 }

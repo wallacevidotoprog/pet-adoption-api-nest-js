@@ -15,8 +15,8 @@ model user {
   phone      Int
   email      String   @unique()
   name       String
-  address_id String?  @unique
-  active     Boolean  @default(false)
+  address_id String?  
+  active     Boolean?  @default(false)
   createAt   DateTime @default(now()) @db.Timestamp(0)
   updateAt   DateTime @default(now()) @updatedAt @db.Timestamp(0)
 
@@ -27,12 +27,14 @@ model address {
   id           String   @id @default(uuid())
   cep          String?
   place        String
-  number       String
+  number       Int
   neighborhood String
   city         String
   uf           String
+  country      String
+  complement   String?
   createAt     DateTime @default(now()) @db.Timestamp(0)
   updateAt     DateTime @default(now()) @updatedAt @db.Timestamp(0)
 
-  user user?
+  user user[]
 }

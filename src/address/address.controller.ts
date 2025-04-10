@@ -14,9 +14,4 @@ export class AddressController extends BaseController<
   constructor(private readonly addressService: AddressService) {
     super(addressService);
   }
-
-  @Get('teste')
-  async teste(@Body() where: FindWhereAddress) {
-    console.log(where);
-  }
 }

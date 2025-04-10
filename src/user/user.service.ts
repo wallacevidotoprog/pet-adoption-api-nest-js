@@ -1,6 +1,5 @@
 import {
   ConflictException,
-  HttpStatus,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -8,7 +7,7 @@ import { hashSync } from 'bcrypt';
 import { UserEntity } from 'src/domain/entity/user.entity';
 import { BaseService } from 'src/domain/infra/reposiroty/base.repository';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { FindWhereUser } from './user.dto';
+import { CreateUserDto, FindWhereUser } from './user.dto';
 
 @Injectable()
 export class UserService extends BaseService<
@@ -19,7 +18,7 @@ export class UserService extends BaseService<
     super(prisma.user);
   }
 
-  protected async create(data: UserEntity) {
+  protected async create(data: CreateUserDto) {
     if (await this.prisma.user.findFirst({ where: { email: data.email } })) {
       throw new ConflictException('Email not valite');
     }
@@ -27,7 +26,7 @@ export class UserService extends BaseService<
 
     await this.prisma.user.create({ data: data });
 
-    return HttpStatus.CREATED;
+    return;
   }
 
   protected override async findOne(id: string): Promise<UserEntity> {
@@ -40,7 +39,9 @@ export class UserService extends BaseService<
     return safe as UserEntity;
   }
 
-  protected override async findAll(where: FindWhereUser): Promise<UserEntity[]> {
+  protected override async findAll(
+    where: FindWhereUser,
+  ): Promise<UserEntity[]> {
     const safe = await super.findAll(where);
     if (!safe || safe.length === 0) {
       throw new NotFoundException('Registration from id not found');
@@ -62,5 +63,8 @@ export class UserService extends BaseService<
       throw new NotFoundException('Registration from id not found');
     }
     return result as UserEntity;
+  }
+  async register(data: CreateUserDto) {
+    await this.create(data);
   }
 }
