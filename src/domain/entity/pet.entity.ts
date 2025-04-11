@@ -1,4 +1,12 @@
-import { IsString, IsBoolean, IsOptional, IsInt, IsArray, IsNumber } from 'class-validator';
+import {
+  IsArray,
+  IsBoolean,
+  IsInt,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { BaseEntity } from './base.entity';
 
 export class PetEntity extends BaseEntity {
@@ -50,5 +58,23 @@ export class PetEntity extends BaseEntity {
   images: string[];
 
   @IsString()
+  @IsNotEmpty()
   user_id: string;
+}
+
+export class PetImageEntity extends BaseEntity {
+  @IsString()
+  @IsNotEmpty()
+  url: string;
+
+  @IsString()
+  @IsNotEmpty()
+  pet_profile_id: string;
+}
+
+export class PetFavoriteEntity extends BaseEntity {
+  @IsNotEmpty()
+  user_id: string;
+  @IsNotEmpty()
+  pet_profile_id: string;
 }

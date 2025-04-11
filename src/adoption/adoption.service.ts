@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { PetEntity } from 'src/domain/entity/pet.entity';
+import { AdoptionEntity } from 'src/domain/entity/adoption.entity';
 import { BaseService } from 'src/domain/infra/reposiroty/base.repository';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
-export class PetService extends BaseService<
-  PetEntity,
-  typeof PrismaService.prototype.pet_profile
+export class AdoptionService extends BaseService<
+  AdoptionEntity,
+  typeof PrismaService.prototype.adoption
 > {
   constructor(private readonly service: PrismaService) {
-    super(service.pet_profile);
+    super(service.adoption);
   }
 }

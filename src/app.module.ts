@@ -8,6 +8,9 @@ import { PrismaModule } from './prisma/prisma.module';
 import { UserModule } from './user/user.module';
 import { EventEmitterModule, OnEvent } from '@nestjs/event-emitter';
 import { PetModule } from './pet/pet.module';
+import { PetImageModule } from './pet_image/pet_image.module';
+import { PetFavoriteModule } from './pet_favorite/pet_favorite.module';
+import { AdoptionModule } from './adoption/adoption.module';
 
 @Module({
   imports: [
@@ -17,7 +20,10 @@ import { PetModule } from './pet/pet.module';
     AuthModule,
     AddressModule,
     EventEmitterModule.forRoot(),
-    PetModule
+    PetModule,
+    PetImageModule,
+    PetFavoriteModule,
+    AdoptionModule
   ],
   controllers: [AuthController],
   providers: [AuthService],
