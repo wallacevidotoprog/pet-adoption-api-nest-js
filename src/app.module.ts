@@ -7,6 +7,7 @@ import { AuthService } from './auth/auth.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { UserModule } from './user/user.module';
 import { EventEmitterModule, OnEvent } from '@nestjs/event-emitter';
+import { PetModule } from './pet/pet.module';
 
 @Module({
   imports: [
@@ -15,7 +16,8 @@ import { EventEmitterModule, OnEvent } from '@nestjs/event-emitter';
     PrismaModule,
     AuthModule,
     AddressModule,
-    EventEmitterModule.forRoot()
+    EventEmitterModule.forRoot(),
+    PetModule
   ],
   controllers: [AuthController],
   providers: [AuthService],

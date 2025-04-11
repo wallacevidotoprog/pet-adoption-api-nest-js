@@ -1,4 +1,4 @@
-import { IsInt, IsOptional, IsString } from 'class-validator';
+import { IsInt, IsOptional, IsString, MaxLength } from 'class-validator';
 import { BaseEntity } from './base.entity';
 
 export class AddressEntity extends BaseEntity {
@@ -19,6 +19,7 @@ export class AddressEntity extends BaseEntity {
   city: string;
 
   @IsString()
+  @MaxLength(2)
   uf: string;
 
   @IsString()

@@ -9,32 +9,68 @@ datasource db {
 }
 
 model user {
-  id         String   @id @default(uuid())
-  username   String
+  id         String    @id @default(uuid())
+  username   String    @db.VarChar(50)
   password   String
   phone      Int
-  email      String   @unique()
-  name       String
-  address_id String?  
+  email      String    @unique()
+  name       String    @db.VarChar(100)
+  cpf        Int?
   active     Boolean?  @default(false)
-  createAt   DateTime @default(now()) @db.Timestamp(0)
-  updateAt   DateTime @default(now()) @updatedAt @db.Timestamp(0)
+  biography  String?   @db.LongText
+  data_birth DateTime?
+  address_id String?
+  createAt   DateTime  @default(now()) @db.Timestamp(0)
+  updateAt   DateTime  @default(now()) @updatedAt @db.Timestamp(0)
 
   address address? @relation(fields: [address_id], references: [id])
+
+  pet_profile pet_profile[]
 }
 
 model address {
   id           String   @id @default(uuid())
-  cep          String?
+  cep          Int?
   place        String
   number       Int
   neighborhood String
   city         String
-  uf           String
+  uf           String   @db.VarChar(2)
   country      String
   complement   String?
   createAt     DateTime @default(now()) @db.Timestamp(0)
   updateAt     DateTime @default(now()) @updatedAt @db.Timestamp(0)
 
   user user[]
+}
+
+model pet_profile {
+  id                   String      @id @default(uuid())
+  name                 String // Nome do pet
+  type                 String // Tipo de animal (ex: cachorro, gato)
+  breed                String // Raça do pet
+  size                 String // Porte do pet (pequeno, médio, grande)
+  gender               String // Sexo do pet (macho, fêmea)
+  age                  Int // Idade do pet
+  description          String // Descrição geral do pet
+  vaccines             String // Lista de vacinas (pode ser separado futuramente)
+  neutered             Boolean // Se o pet é castrado
+  healthy              Boolean // Se o pet está saudável
+  specialNeeds         Boolean // Se o pet possui necessidades especiais
+  category             String // Categoria (adoção ou venda)
+  price                Float? // Preço (caso seja venda, opcional)
+  availableForAdoption Boolean     @default(true) // Está disponível para adoção
+  images               pet_image[]
+  user_id              String
+  createdAt            DateTime    @default(now())
+  updatedAt            DateTime    @updatedAt
+
+  user user @relation(fields: [user_id], references: [id])
+}
+
+model pet_image {
+  id             String      @id @default(uuid())
+  url            String
+  petProfile     pet_profile @relation(fields: [pet_profile_id], references: [id])
+  pet_profile_id String
 }
