@@ -11,12 +11,12 @@ import {
   Query,
 } from '@nestjs/common';
 
+//@ApiTags('Base')
 export abstract class BaseController<CreateDto, UpdateDto, FindWhere> {
   constructor(private readonly service: any) {}
-
   @HttpCode(HttpStatus.CREATED)
   @Post()
-  protected async create(@Body() createdto: CreateDto) {
+  public async create(@Body() createdto: CreateDto) {
     return this.service.create(createdto);
   }
 
@@ -28,7 +28,6 @@ export abstract class BaseController<CreateDto, UpdateDto, FindWhere> {
   ) {
     return this.service.update(id, updatedto);
   }
-
 
   @HttpCode(HttpStatus.OK)
   @Get(':id')
@@ -71,8 +70,8 @@ export abstract class BaseService<TModel, TDelegate> {
   }
 
   protected async findAll(data: any): Promise<TModel[]> {
-    const where = this.buildPrismaWhere(data);   
-    
+    const where = this.buildPrismaWhere(data);
+
     if (data) {
       return await (this.model as any).findMany({ where });
     }

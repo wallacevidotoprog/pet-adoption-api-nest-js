@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { Public } from 'src/common/decorators/public.decorator';
 import { BaseController } from 'src/domain/infra/reposiroty/base.repository';
@@ -17,8 +17,8 @@ export class PetController extends BaseController<
   }
 
   @Public()
-  @Get()
-  async Getall() {
+  @Get('teste')
+  async Getall(@Body() da:string) {
     return 'public';
   }
 }
