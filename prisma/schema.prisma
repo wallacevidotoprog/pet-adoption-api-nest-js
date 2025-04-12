@@ -50,19 +50,19 @@ model address {
 model pet_profile {
   id                   String      @id @default(uuid())
   name                 String // Nome do pet
-  type                 String // Tipo de animal (ex: cachorro, gato)
-  breed                String // Raça do pet
-  size                 String // Porte do pet (pequeno, médio, grande)
-  gender               String // Sexo do pet (macho, fêmea)
-  age                  Int // Idade do pet
-  description          String // Descrição geral do pet
-  vaccines             String // Lista de vacinas (pode ser separado futuramente)
-  neutered             Boolean // Se o pet é castrado
-  healthy              Boolean // Se o pet está saudável
-  specialNeeds         Boolean // Se o pet possui necessidades especiais
-  category             String // Categoria (adoção ou venda)
+  type                 String? // Tipo de animal (ex: cachorro, gato)
+  size                 String? // Porte do pet (pequeno, médio, grande)
+  breed                String? // Raça do pet
+  gender               String? // Sexo do pet (macho, fêmea)
+  age                  Int? // Idade do pet
+  description          String? // Descrição geral do pet
+  vaccines             String? // Lista de vacinas (pode ser separado futuramente)
+  neutered             Boolean? // Se o pet é castrado
+  healthy              Boolean? // Se o pet está saudável
+  specialNeeds         Boolean? // Se o pet possui necessidades especiais
+  category             String? // Categoria (adoção ou venda)
   price                Float? // Preço (caso seja venda, opcional)
-  availableForAdoption Boolean     @default(true) // Está disponível para adoção
+  availableForAdoption Boolean?    @default(true) // Está disponível para adoção
   images               pet_image[]
   user_id              String
   createdAt            DateTime    @default(now())

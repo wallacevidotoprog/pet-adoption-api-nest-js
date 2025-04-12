@@ -70,9 +70,10 @@ export abstract class BaseService<TModel, TDelegate> {
   }
 
   protected async findAll(data: any): Promise<TModel[]> {
-    const where = this.buildPrismaWhere(data);
-
-    if (data) {
+    
+    if (data || data != null) {
+      console.log('data=>:',data);
+      const where = this.buildPrismaWhere(data);
       return await (this.model as any).findMany({ where });
     }
     return await (this.model as any).findMany();
