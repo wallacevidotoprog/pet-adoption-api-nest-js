@@ -62,7 +62,7 @@ export class UserService extends BaseService<
     if (!result) {
       throw new NotFoundException('Registration from id not found');
     }
-    return result as UserEntity;
+    return result as unknown as UserEntity;
   }
   async register(data: CreateUserDto) {
     await this.create(data);

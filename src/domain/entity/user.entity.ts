@@ -1,12 +1,16 @@
-import { Optional } from '@nestjs/common';
-import { IsBoolean, IsEmail, IsInt, IsNotEmpty, IsOptional, IsString, MaxLength} from 'class-validator';
+import {
+  IsBoolean,
+  IsDate,
+  IsEmail,
+  IsInt,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  MaxLength,
+} from 'class-validator';
 import { BaseEntity } from './base.entity';
 
 export class UserEntity extends BaseEntity {
-  @IsString()
-  @MaxLength(50)
-  username: string;
-
   @IsString()
   @IsNotEmpty()
   password: string;
@@ -15,7 +19,7 @@ export class UserEntity extends BaseEntity {
   @MaxLength(11)
   phone: number;
 
-  @IsEmail()//disableErrorMessages
+  @IsEmail() //disableErrorMessages
   email: string;
 
   @IsString()
@@ -28,4 +32,16 @@ export class UserEntity extends BaseEntity {
   @IsBoolean()
   @IsOptional()
   active: boolean;
+
+  @IsString()
+  @MaxLength(11)
+  cpf: string;
+
+  @IsString()
+  @IsOptional()
+  biography?: string;
+
+  @IsDate()
+  @IsOptional()
+  data_birth?: Date;
 }
