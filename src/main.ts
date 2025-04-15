@@ -16,7 +16,7 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, documentFactory);
 
   app.enableCors({
-    origin: ['http://localhost:5500','http://localhost:3001','http://192.168.1.3:3001'],
+    origin: ['http://localhost:5500','http://localhost:4000','http://192.168.1.3:3001'],
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     credentials: true,
   });
